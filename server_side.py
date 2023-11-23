@@ -1,4 +1,5 @@
 from phe import paillier
+import math
 
 def receive(kwargs):
-	return sum(kwargs.values())
+	return math.prod(kwargs.values())
