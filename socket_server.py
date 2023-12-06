@@ -1,14 +1,17 @@
 import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-s.bind(('127.0.0.1', 3030))
-s.listen(1)
-conn, addr = s.accept()
-
+import math 
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+host = socket.gethostname()
+print(host)
+port = 12345
+server_socket.bind((host, port))
+server_socket.listen(5)
+values = []
 while True:
-	data = conn.recv(1024)
-	if not data:
-		break
-	conn.sendall(data)
-	print(data.decode('utf-8'))
-conn.close()
+    client_socket, addr = server_socket.accept()
+    print(f"Подключение от {addr}")
+    data = client_socket.recv(1024)
+    print(f"Получены данные: {data.decode()}")
+    values.append(int(data.decode()))
+    client_socket.send(str(math.prod(values)).encode())
+    client_socket.close()
